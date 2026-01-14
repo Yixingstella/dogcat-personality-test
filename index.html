@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABTI犬格测试：你的狗狗是什么大人物？</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            text-align: center;
+        }
+        #app {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        h1 { color: #ff6b6b; margin-bottom: 10px; font-size: 2.2em; }
+        h2 { color: #4a69bd; margin: 20px 0 15px; }
+        p { line-height: 1.6; margin-bottom: 20px; color: #555; }
+
+        /* 开始页 */
+        #start-page img { width: 120px; margin: 20px 0; }
+        #start-btn {
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            color: white;
+            font-size: 1.3em;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 6px 15px rgba(255, 94, 98, 0.4);
+        }
+        #start-btn:hover { transform: translateY(-3px); box-shadow: 0 9px 20px rgba(255, 94, 98, 0.6); }
+
+        /* 答题页 */
+        .progress-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #42e695, #3bb2b8);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        .progress-text { font-size: 0.9em; color: #666; margin-top: 5px; }
+        .question-text {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin: 25px 0;
+            line-height: 1.5;
+            color: #2c3e50;
+            min-height: 4em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .options-container { margin: 30px 0; }
+        .option-btn {
+            display: block;
+            width: 100%;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin: 12px 0;
+            font-size: 1.1em;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .option-btn:hover {
+            background: #edf2ff;
+            border-color: #4a69bd;
+            transform: translateX(5px);
+        }
+
+        /* 结果页 */
+        .result-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin: 25px 0;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        .result-code {
+            font-size: 3em;
+            font-weight: bold;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .result-name {
+            font-size: 2em;
+            margin: 10px 0;
+        }
+        .result-desc {
+            font-size: 1.1em;
+            line-height: 1.7;
+            padding: 0 10px;
+        }
+        #pay-guide {
+            background: #fff9e6;
+            border-left: 5px solid #ffcc00;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        #pay-link {
+            display: inline-block;
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 15px 0;
+            transition: all 0.3s;
+            box-shadow: 0 6px 15px rgba(0, 176, 155, 0.3);
+        }
+        #pay-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 20px rgba(0, 176, 155, 0.5);
+        }
+        #restart-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        #restart-btn:hover { background: #5a6268; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 第一屏：开始页 -->
+        <div id="start-page" class="page active">
+            <h1>🐕 ABTI犬格测试</h1>
+            <p style="font-size:1.2em; color:#666;">测测你的狗狗是<br><strong>"社交牛杂症"</strong>还是<strong>"高冷谋士"</strong>？</p>
+            <p>12道精心设计的场景题，深度解码你家毛孩子的独特性格！</p>
+            <div style="font-size:0.9em; color:#888; margin:30px 0; padding:15px; background:#f8f9fa; border-radius:10px;">
+                <p>💡 <strong>测试说明</strong></p>
+                <p>根据狗狗在生活中的真实反应，选择最贴近的选项。<br>最终将生成专属的<strong>4字母犬格代码</strong>和幽默解析！</p>
+            </div>
+            <button id="start-btn">开始测试 →</button>
+        </div>
+
+        <!-- 第二屏：答题页 -->
+        <div id="quiz-page" class="page">
+            <h2>狗狗性格测试</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-text">第 <span id="current-question">1</span> 题 / 共 12 题</div>
+            <div class="question-text" id="question-text">题目加载中...</div>
+            <div class="options-container" id="options-container">
+                <!-- 选项按钮由JavaScript动态生成 -->
+            </div>
+        </div>
+
+        <!-- 第三屏：结果页 -->
+        <div id="result-page" class="page">
+            <h2>🎉 测试完成！</h2>
+            <p>你家狗狗的专属犬格报告已生成：</p>
+            <div class="result-badge">
+                <div class="result-code" id="result-code">ESTJ</div>
+                <div class="result-name" id="result-name">铁面警长</div>
+            </div>
+            <div class="result-desc" id="result-desc">
+                这里将显示完整的性格描述...
+            </div>
+            <div id="pay-guide">
+                <h3>🎁 想获取更详细的驯养指南？</h3>
+                <p>专属的《犬格深度分析报告》包含：性格成因、相处秘诀、训练建议和趣味冷知识！</p>
+                <a id="pay-link" href="https://你的小鹅通链接?dog_type=XXXX" target="_blank">
+                    📄 解锁完整报告 (9.9元)
+                </a>
+                <p style="font-size:0.9em; color:#666; margin-top:10px;">报告将根据测试结果<strong>「<span id="dynamic-type">ESTJ</span>」</strong>个性化生成</p>
+            </div>
+            <button id="restart-btn">再测一次</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

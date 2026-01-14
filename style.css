@@ -1,0 +1,174 @@
+// ============= 第一部分：定义题库和结果 =============
+// 你可以修改这里的文字，但不要动‘score’里的字母和数字
+const questions = [
+    {
+        text: "1. 带狗狗去一个全新的公园，它的第一反应通常是？",
+        options: [
+            { text: "兴奋地往前冲，想立刻探索每一个角落", score: {E:1} },
+            { text: "先停下来观察，或紧贴我的腿，比较谨慎", score: {E:-1} }
+        ]
+    },
+    {
+        text: "2. 玩玩具时，它更喜欢哪种？",
+        options: [
+            { text: "喜欢需要追、跑、跳的互动游戏（如接球）", score: {S:1} },
+            { text: "喜欢需要动脑筋解开的玩具（如藏零食的玩具）", score: {S:-1} }
+        ]
+    },
+    {
+        text: "3. 当它做错事（比如弄坏东西），你批评它时，它通常？",
+        options: [
+            { text: "看起来有点‘内疚’，会低头或讨好", score: {F:1} },
+            { text: "看起来无所谓，或者转移注意力去玩别的", score: {T:1} }
+        ]
+    },
+    {
+        text: "4. 每天的散步路线，它倾向于？",
+        options: [
+            { text: "走熟悉的路线，在固定的地方做标记", score: {J:1} },
+            { text: "总想探索新路线，对未知小路充满好奇", score: {P:1} }
+        ]
+    },
+    // === 后4道题是巩固判断，逻辑类似，这里先省略，你完成后可以自己添加 ===
+    {
+        text: "5. 家里来客人时，它通常？",
+        options: [
+            { text: "非常热情，主动上前打招呼", score: {E:1} },
+            { text: "先观察一阵，或者躲起来", score: {E:-1} }
+        ]
+    },
+    {
+        text: "6. 学习新指令时，它更依赖于？",
+        options: [
+            { text: "你的手势和动作示范", score: {S:1} },
+            { text: "你的语气和它自己的‘感觉’", score: {N:1} } // 用N代表直觉
+        ]
+    },
+    {
+        text: "7. 它和其他狗狗玩耍时，如果发生争执，它通常？",
+        options: [
+            { text: "会退让，或者来找你求助", score: {F:1} },
+            { text: "会坚持，用叫声或动作维护自己", score: {T:1} }
+        ]
+    },
+    {
+        text: "8. 它的日常生活习惯？",
+        options: [
+            { text: "非常有规律，吃饭散步时间很固定", score: {J:1} },
+            { text: "比较随性，累了就睡，饿了才吃", score: {P:1} }
+        ]
+    }
+];
+
+// 定义16种性格类型的结果描述（这里先写4个示例，你需要补齐）
+const typeResults = {
+    "ESTP": { name: "探险家", desc: "你家狗狗是个精力充沛、热爱冒险的实干家！永远对新鲜事物充满好奇，是派对上的焦点。需要大量运动和刺激，否则可能会自己‘找乐子’哦！" },
+    "ISTJ": { name: "忠诚卫士", desc: "稳重、可靠、秩序感极强的守护者！它喜欢规律的生活，是你的忠实伙伴。有点慢热，但一旦认定你，就会无比忠诚。" },
+    "ENFP": { name: "快乐小狗", desc: "热情、创意十足、人见人爱的社交达人！它情感丰富，喜欢所有人和狗，总能带来欢乐。需要你的关注和互动，讨厌孤独。" },
+    "INFJ": { name: "心灵导师", desc: "温柔、体贴、善解人意的狗狗哲学家。它似乎能感知你的情绪，喜欢安静地陪在你身边。有点敏感，需要温和的对待。" }
+    // ... 你需要在这里继续添加其他12种组合，例如：ESFP, ISFJ, ENTJ, INTJ等等
+};
+
+// ============= 第二部分：核心逻辑（不要修改） =============
+let currentQuestionIndex = 0;
+let scores = {E:0, S:0, T:0, F:0, N:0, J:0, P:0}; // 初始化分数
+
+const startPage = document.getElementById('start-page');
+const quizPage = document.getElementById('quiz-page');
+const resultPage = document.getElementById('result-page');
+const startBtn = document.getElementById('start-btn');
+const questionText = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const currentSpan = document.getElementById('current');
+const totalSpan = document.getElementById('total');
+const dogTypeCode = document.getElementById('dog-type-code');
+const dogTypeName = document.getElementById('dog-type-name');
+const dogTypeDesc = document.getElementById('dog-type-desc');
+const payLink = document.getElementById('pay-link');
+const restartBtn = document.getElementById('restart-btn');
+
+// 设置总题数
+totalSpan.textContent = questions.length;
+
+// 1. 开始测试
+startBtn.addEventListener('click', () => {
+    startPage.classList.remove('active');
+    quizPage.classList.add('active');
+    showQuestion();
+});
+
+// 2. 显示题目
+function showQuestion() {
+    const question = questions[currentQuestionIndex];
+    questionText.textContent = question.text;
+    optionsContainer.innerHTML = '';
+    currentSpan.textContent = currentQuestionIndex + 1;
+
+    question.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.className = 'option';
+        button.textContent = option.text;
+        // 把分数数据存在按钮上
+        button.dataset.score = JSON.stringify(option.score);
+        button.addEventListener('click', selectOption);
+        optionsContainer.appendChild(button);
+    });
+}
+
+// 3. 选择选项
+function selectOption(event) {
+    // 3.1 累加分数
+    const scoreDelta = JSON.parse(event.target.dataset.score);
+    for (const [dimension, value] of Object.entries(scoreDelta)) {
+        scores[dimension] += value;
+    }
+
+    // 3.2 下一题或结束
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion();
+    } else {
+        calculateResult();
+    }
+}
+
+// 4. 计算并显示结果（核心！）
+function calculateResult() {
+    quizPage.classList.remove('active');
+    resultPage.classList.add('active');
+
+    // 4.1 判断每个维度的倾向（根据我们题目的设计逻辑）
+    const eScore = scores.E; // E/I维度，正值是E，负值是I
+    const sScore = scores.S - (scores.N || 0); // S/N维度，我们用S和N的差值
+    const tScore = scores.T - scores.F; // T/F维度，T和F的差值
+    const jScore = scores.J - scores.P; // J/P维度，J和P的差值
+
+    const typeCode = [
+        eScore >= 0 ? 'E' : 'I',
+        sScore >= 0 ? 'S' : 'N',
+        tScore >= 0 ? 'T' : 'F',
+        jScore >= 0 ? 'J' : 'P'
+    ].join('');
+
+    // 4.2 获取结果
+    const result = typeResults[typeCode];
+    if (result) {
+        dogTypeCode.textContent = typeCode;
+        dogTypeName.textContent = result.name;
+        dogTypeDesc.textContent = result.desc;
+        // 4.3 更新付费链接，带上性格代码！
+        payLink.href = payLink.href.replace('XXXX', typeCode);
+    } else {
+        dogTypeCode.textContent = typeCode;
+        dogTypeName.textContent = '未知类型';
+        dogTypeDesc.textContent = '哇，你发现了一个罕见的组合！我们的数据库正在更新中。';
+    }
+}
+
+// 5. 重新开始
+restartBtn.addEventListener('click', () => {
+    currentQuestionIndex = 0;
+    scores = {E:0, S:0, T:0, F:0, N:0, J:0, P:0};
+    resultPage.classList.remove('active');
+    startPage.classList.add('active');
+});
