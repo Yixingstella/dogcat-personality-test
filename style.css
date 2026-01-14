@@ -1,174 +1,334 @@
-// ============= 第一部分：定义题库和结果 =============
-// 你可以修改这里的文字，但不要动‘score’里的字母和数字
-const questions = [
-    {
-        text: "1. 带狗狗去一个全新的公园，它的第一反应通常是？",
-        options: [
-            { text: "兴奋地往前冲，想立刻探索每一个角落", score: {E:1} },
-            { text: "先停下来观察，或紧贴我的腿，比较谨慎", score: {E:-1} }
-        ]
-    },
-    {
-        text: "2. 玩玩具时，它更喜欢哪种？",
-        options: [
-            { text: "喜欢需要追、跑、跳的互动游戏（如接球）", score: {S:1} },
-            { text: "喜欢需要动脑筋解开的玩具（如藏零食的玩具）", score: {S:-1} }
-        ]
-    },
-    {
-        text: "3. 当它做错事（比如弄坏东西），你批评它时，它通常？",
-        options: [
-            { text: "看起来有点‘内疚’，会低头或讨好", score: {F:1} },
-            { text: "看起来无所谓，或者转移注意力去玩别的", score: {T:1} }
-        ]
-    },
-    {
-        text: "4. 每天的散步路线，它倾向于？",
-        options: [
-            { text: "走熟悉的路线，在固定的地方做标记", score: {J:1} },
-            { text: "总想探索新路线，对未知小路充满好奇", score: {P:1} }
-        ]
-    },
-    // === 后4道题是巩固判断，逻辑类似，这里先省略，你完成后可以自己添加 ===
-    {
-        text: "5. 家里来客人时，它通常？",
-        options: [
-            { text: "非常热情，主动上前打招呼", score: {E:1} },
-            { text: "先观察一阵，或者躲起来", score: {E:-1} }
-        ]
-    },
-    {
-        text: "6. 学习新指令时，它更依赖于？",
-        options: [
-            { text: "你的手势和动作示范", score: {S:1} },
-            { text: "你的语气和它自己的‘感觉’", score: {N:1} } // 用N代表直觉
-        ]
-    },
-    {
-        text: "7. 它和其他狗狗玩耍时，如果发生争执，它通常？",
-        options: [
-            { text: "会退让，或者来找你求助", score: {F:1} },
-            { text: "会坚持，用叫声或动作维护自己", score: {T:1} }
-        ]
-    },
-    {
-        text: "8. 它的日常生活习惯？",
-        options: [
-            { text: "非常有规律，吃饭散步时间很固定", score: {J:1} },
-            { text: "比较随性，累了就睡，饿了才吃", score: {P:1} }
-        ]
-    }
-];
-
-// 定义16种性格类型的结果描述（这里先写4个示例，你需要补齐）
-const typeResults = {
-    "ESTP": { name: "探险家", desc: "你家狗狗是个精力充沛、热爱冒险的实干家！永远对新鲜事物充满好奇，是派对上的焦点。需要大量运动和刺激，否则可能会自己‘找乐子’哦！" },
-    "ISTJ": { name: "忠诚卫士", desc: "稳重、可靠、秩序感极强的守护者！它喜欢规律的生活，是你的忠实伙伴。有点慢热，但一旦认定你，就会无比忠诚。" },
-    "ENFP": { name: "快乐小狗", desc: "热情、创意十足、人见人爱的社交达人！它情感丰富，喜欢所有人和狗，总能带来欢乐。需要你的关注和互动，讨厌孤独。" },
-    "INFJ": { name: "心灵导师", desc: "温柔、体贴、善解人意的狗狗哲学家。它似乎能感知你的情绪，喜欢安静地陪在你身边。有点敏感，需要温和的对待。" }
-    // ... 你需要在这里继续添加其他12种组合，例如：ESFP, ISFJ, ENTJ, INTJ等等
-};
-
-// ============= 第二部分：核心逻辑（不要修改） =============
-let currentQuestionIndex = 0;
-let scores = {E:0, S:0, T:0, F:0, N:0, J:0, P:0}; // 初始化分数
-
-const startPage = document.getElementById('start-page');
-const quizPage = document.getElementById('quiz-page');
-const resultPage = document.getElementById('result-page');
-const startBtn = document.getElementById('start-btn');
-const questionText = document.getElementById('question-text');
-const optionsContainer = document.getElementById('options-container');
-const currentSpan = document.getElementById('current');
-const totalSpan = document.getElementById('total');
-const dogTypeCode = document.getElementById('dog-type-code');
-const dogTypeName = document.getElementById('dog-type-name');
-const dogTypeDesc = document.getElementById('dog-type-desc');
-const payLink = document.getElementById('pay-link');
-const restartBtn = document.getElementById('restart-btn');
-
-// 设置总题数
-totalSpan.textContent = questions.length;
-
-// 1. 开始测试
-startBtn.addEventListener('click', () => {
-    startPage.classList.remove('active');
-    quizPage.classList.add('active');
-    showQuestion();
-});
-
-// 2. 显示题目
-function showQuestion() {
-    const question = questions[currentQuestionIndex];
-    questionText.textContent = question.text;
-    optionsContainer.innerHTML = '';
-    currentSpan.textContent = currentQuestionIndex + 1;
-
-    question.options.forEach((option, index) => {
-        const button = document.createElement('button');
-        button.className = 'option';
-        button.textContent = option.text;
-        // 把分数数据存在按钮上
-        button.dataset.score = JSON.stringify(option.score);
-        button.addEventListener('click', selectOption);
-        optionsContainer.appendChild(button);
-    });
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-// 3. 选择选项
-function selectOption(event) {
-    // 3.1 累加分数
-    const scoreDelta = JSON.parse(event.target.dataset.score);
-    for (const [dimension, value] of Object.entries(scoreDelta)) {
-        scores[dimension] += value;
-    }
+body {
+    font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+    text-align: center;
+}
 
-    // 3.2 下一题或结束
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-        showQuestion();
-    } else {
-        calculateResult();
+#app {
+    max-width: 600px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
 
-// 4. 计算并显示结果（核心！）
-function calculateResult() {
-    quizPage.classList.remove('active');
-    resultPage.classList.add('active');
-
-    // 4.1 判断每个维度的倾向（根据我们题目的设计逻辑）
-    const eScore = scores.E; // E/I维度，正值是E，负值是I
-    const sScore = scores.S - (scores.N || 0); // S/N维度，我们用S和N的差值
-    const tScore = scores.T - scores.F; // T/F维度，T和F的差值
-    const jScore = scores.J - scores.P; // J/P维度，J和P的差值
-
-    const typeCode = [
-        eScore >= 0 ? 'E' : 'I',
-        sScore >= 0 ? 'S' : 'N',
-        tScore >= 0 ? 'T' : 'F',
-        jScore >= 0 ? 'J' : 'P'
-    ].join('');
-
-    // 4.2 获取结果
-    const result = typeResults[typeCode];
-    if (result) {
-        dogTypeCode.textContent = typeCode;
-        dogTypeName.textContent = result.name;
-        dogTypeDesc.textContent = result.desc;
-        // 4.3 更新付费链接，带上性格代码！
-        payLink.href = payLink.href.replace('XXXX', typeCode);
-    } else {
-        dogTypeCode.textContent = typeCode;
-        dogTypeName.textContent = '未知类型';
-        dogTypeDesc.textContent = '哇，你发现了一个罕见的组合！我们的数据库正在更新中。';
-    }
+h1 {
+    color: #ff6b6b;
+    margin-bottom: 10px;
+    font-size: 2.2em;
 }
 
-// 5. 重新开始
-restartBtn.addEventListener('click', () => {
-    currentQuestionIndex = 0;
-    scores = {E:0, S:0, T:0, F:0, N:0, J:0, P:0};
-    resultPage.classList.remove('active');
-    startPage.classList.add('active');
-});
+h2 {
+    color: #4a69bd;
+    margin: 20px 0 15px;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+/* 开始页 */
+#start-page img {
+    width: 120px;
+    margin: 20px 0;
+}
+
+#start-btn {
+    background: linear-gradient(to right, #ff9966, #ff5e62);
+    color: white;
+    font-size: 1.3em;
+    padding: 18px 40px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 6px 15px rgba(255, 94, 98, 0.4);
+}
+
+#start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 20px rgba(255, 94, 98, 0.6);
+}
+
+/* 答题页 */
+.progress-bar {
+    height: 8px;
+    background: #eee;
+    border-radius: 4px;
+    margin: 25px 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, #42e695, #3bb2b8);
+    width: 0%;
+    transition: width 0.5s ease;
+    border-radius: 4px;
+}
+
+.progress-text {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+}
+
+.question-text {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 25px 0;
+    line-height: 1.5;
+    color: #2c3e50;
+    min-height: 4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.options-container {
+    margin: 30px 0;
+}
+
+.option-btn {
+    display: block;
+    width: 100%;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin: 12px 0;
+    font-size: 1.1em;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.option-btn:hover,
+.option-btn.selected {
+    background: #edf2ff;
+    border-color: #4a69bd;
+    transform: translateX(5px);
+}
+
+.option-btn.selected {
+    background: #4a69bd;
+    color: white;
+    font-weight: bold;
+}
+
+/* 答题导航按钮容器 */
+.quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.nav-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#prev-btn {
+    background: #6c757d;
+    color: white;
+}
+
+#prev-btn:hover:not(:disabled) {
+    background: #5a6268;
+}
+
+#prev-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+#next-btn,
+#submit-btn {
+    background: linear-gradient(to right, #00b09b, #96c93d);
+    color: white;
+}
+
+#next-btn:hover:not(:disabled),
+#submit-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 176, 155, 0.4);
+}
+
+#next-btn:disabled,
+#submit-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+#submit-btn {
+    display: none;
+}
+
+/* 结果页 */
+.result-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 20px;
+    margin: 25px 0;
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.result-code {
+    font-size: 3em;
+    font-weight: bold;
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.result-name {
+    font-size: 2em;
+    margin: 10px 0;
+}
+
+.result-desc {
+    font-size: 1.1em;
+    line-height: 1.7;
+    padding: 0 10px;
+}
+
+#pay-guide {
+    background: #fff9e6;
+    border-left: 5px solid #ffcc00;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 30px 0;
+    text-align: center;
+}
+
+#pay-link {
+    display: inline-block;
+    background: linear-gradient(to right, #00b09b, #96c93d);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 15px 0;
+    transition: all 0.3s;
+    box-shadow: 0 6px 15px rgba(0, 176, 155, 0.3);
+}
+
+#pay-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 20px rgba(0, 176, 155, 0.5);
+}
+
+/* 生成名片区域 */
+#name-card-section {
+    background: #f8f9ff;
+    border: 2px dashed #a3bffa;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 30px 0;
+    text-align: center;
+}
+
+#upload-photo {
+    display: none;
+}
+
+.upload-label {
+    display: inline-block;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 15px 0;
+    transition: all 0.3s;
+}
+
+.upload-label:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(255, 126, 95, 0.4);
+}
+
+#generate-card {
+    background: linear-gradient(to right, #36d1dc, #5b86e5);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.3s;
+}
+
+#generate-card:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(91, 134, 229, 0.4);
+}
+
+#generate-card:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+#card-preview {
+    max-width: 300px;
+    margin: 20px auto;
+    border-radius: 12px;
+    display: none;
+}
+
+#restart-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+#restart-btn:hover {
+    background: #5a6268;
+}

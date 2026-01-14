@@ -47,7 +47,7 @@
         }
         #start-btn:hover { transform: translateY(-3px); box-shadow: 0 9px 20px rgba(255, 94, 98, 0.6); }
 
-        /* 答题页 */
+        /* 答题页 - 更新部分 */
         .progress-bar {
             height: 8px;
             background: #eee;
@@ -88,13 +88,50 @@
             cursor: pointer;
             transition: all 0.25s ease;
         }
-        .option-btn:hover {
+        .option-btn:hover, .option-btn.selected {
             background: #edf2ff;
             border-color: #4a69bd;
             transform: translateX(5px);
         }
+        .option-btn.selected {
+            background: #4a69bd;
+            color: white;
+            font-weight: bold;
+        }
+        /* 新增：答题导航按钮容器 */
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .nav-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #prev-btn { background: #6c757d; color: white; }
+        #prev-btn:hover:not(:disabled) { background: #5a6268; }
+        #prev-btn:disabled { background: #cccccc; cursor: not-allowed; }
+        #next-btn, #submit-btn {
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: white;
+        }
+        #next-btn:hover:not(:disabled), #submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 176, 155, 0.4);
+        }
+        #next-btn:disabled, #submit-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #submit-btn { display: none; } /* 初始隐藏，最后一题显示 */
 
-        /* 结果页 */
+        /* 结果页 - 更新部分 */
         .result-badge {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -143,6 +180,58 @@
             transform: translateY(-3px);
             box-shadow: 0 9px 20px rgba(0, 176, 155, 0.5);
         }
+        /* 新增：生成名片区域 */
+        #name-card-section {
+            background: #f8f9ff;
+            border: 2px dashed #a3bffa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        #upload-photo {
+            display: none; /* 隐藏原生文件选择框 */
+        }
+        .upload-label {
+            display: inline-block;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 15px 0;
+            transition: all 0.3s;
+        }
+        .upload-label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 126, 95, 0.4);
+        }
+        #generate-card {
+            background: linear-gradient(to right, #36d1dc, #5b86e5);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        #generate-card:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(91, 134, 229, 0.4);
+        }
+        #generate-card:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        #card-preview {
+            max-width: 300px;
+            margin: 20px auto;
+            border-radius: 12px;
+            display: none; /* 初始隐藏，生成后显示 */
+        }
         #restart-btn {
             background: #6c757d;
             color: white;
@@ -182,6 +271,12 @@
             <div class="options-container" id="options-container">
                 <!-- 选项按钮由JavaScript动态生成 -->
             </div>
+            <!-- 新增：导航按钮 -->
+            <div class="quiz-nav">
+                <button id="prev-btn" class="nav-btn" disabled>← 上一题</button>
+                <button id="next-btn" class="nav-btn" disabled>下一题 →</button>
+                <button id="submit-btn" class="nav-btn">提交答案，查看结果！</button>
+            </div>
         </div>
 
         <!-- 第三屏：结果页 -->
@@ -203,6 +298,19 @@
                 </a>
                 <p style="font-size:0.9em; color:#666; margin-top:10px;">报告将根据测试结果<strong>「<span id="dynamic-type">ESTJ</span>」</strong>个性化生成</p>
             </div>
+            <!-- 新增：生成狗狗性格名片区域 -->
+            <div id="name-card-section">
+                <h3>🐶 生成专属狗狗性格名片</h3>
+                <p>上传一张爱宠的萌照，制作一张可以分享到朋友圈的炫酷性格卡片吧！</p>
+                <input type="file" id="upload-photo" accept="image/*">
+                <label for="upload-photo" class="upload-label">📷 选择狗狗照片</label>
+                <p id="photo-filename" style="font-size:0.9em; color:#666; margin:10px 0;"></p>
+                <button id="generate-card" disabled>✨ 生成并下载性格名片</button>
+                <img id="card-preview" alt="名片预览">
+                <p style="font-size:0.8em; color:#999; margin-top:10px;">提示：生成的名片将自动下载，快去分享给你的好友！</p>
+            </div>
+            <!-- 隐藏的画布，用于合成图片 -->
+            <canvas id="name-card-canvas" style="display:none;"></canvas>
             <button id="restart-btn">再测一次</button>
         </div>
     </div>

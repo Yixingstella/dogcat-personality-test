@@ -1,91 +1,91 @@
 // ============= ABTI狗狗题库（12题，4维度×3题） =============
 const questions = [
     // 维度1：外向(E) vs 内向(I)
-    { 
+    {
         text: "家里来了陌生访客，狗狗会？",
         options: [
-            { text: "立刻冲到门口摇尾巴、转圈，甚至跳起来舔人", score: {E:1} },
-            { text: "躲在沙发下或主人身后，偷偷观察", score: {I:1} }
+            { text: "立刻冲到门口摇尾巴、转圈，甚至跳起来舔人", score: { E: 1 } },
+            { text: "躲在沙发下或主人身后，偷偷观察", score: { I: 1 } }
         ]
     },
-    { 
+    {
         text: "在公园遇到其他狗狗时，它会？",
         options: [
-            { text: "主动跑过去闻对方屁股，甚至挑衅玩耍", score: {E:1} },
-            { text: "站在主人脚边，用余光瞟对方，等对方先靠近", score: {I:1} }
+            { text: "主动跑过去闻对方屁股，甚至挑衅玩耍", score: { E: 1 } },
+            { text: "站在主人脚边，用余光瞟对方，等对方先靠近", score: { I: 1 } }
         ]
     },
-    { 
+    {
         text: "主人带它去朋友家做客时，它会？",
         options: [
-            { text: "冲进房间四处探索，跳上沙发嗅闻每个角落", score: {E:1} },
-            { text: "安静地趴在主人脚边，偶尔抬头观察环境", score: {I:1} }
+            { text: "冲进房间四处探索，跳上沙发嗅闻每个角落", score: { E: 1 } },
+            { text: "安静地趴在主人脚边，偶尔抬头观察环境", score: { I: 1 } }
         ]
     },
     // 维度2：感知(S) vs 直觉(N)
-    { 
+    {
         text: "主人拿出狗粮碗时，狗狗会？",
         options: [
-            { text: "立刻冲到碗前，盯着每一粒狗粮，甚至用爪子扒拉", score: {S:1} },
-            { text: "先闻闻碗，然后抬头看主人，仿佛在问：‘今天有加肉吗？’", score: {N:1} }
+            { text: "立刻冲到碗前，盯着每一粒狗粮，甚至用爪子扒拉", score: { S: 1 } },
+            { text: "先闻闻碗，然后抬头看主人，仿佛在问：‘今天有加肉吗？’", score: { N: 1 } }
         ]
     },
-    { 
+    {
         text: "主人说‘走，出门！’时，狗狗会？",
         options: [
-            { text: "立刻跑到门口，疯狂转圈，甚至叼来牵引绳", score: {S:1} },
-            { text: "先歪头思考，然后跑到窗边看看外面天气，再决定是否兴奋", score: {N:1} }
+            { text: "立刻跑到门口，疯狂转圈，甚至叼来牵引绳", score: { S: 1 } },
+            { text: "先歪头思考，然后跑到窗边看看外面天气，再决定是否兴奋", score: { N: 1 } }
         ]
     },
-    { 
+    {
         text: "主人给它一个未拆封的零食包装袋时，它会？",
         options: [
-            { text: "直接用牙齿撕咬包装袋，试图打开", score: {S:1} },
-            { text: "叼着包装袋跑到主人面前，放下后抬头看主人", score: {N:1} }
+            { text: "直接用牙齿撕咬包装袋，试图打开", score: { S: 1 } },
+            { text: "叼着包装袋跑到主人面前，放下后抬头看主人", score: { N: 1 } }
         ]
     },
     // 维度3：思考(T) vs 情感(F)
-    { 
+    {
         text: "主人假装哭时，狗狗会？",
         options: [
-            { text: "冷静观察，可能用爪子拍拍主人，但很快失去兴趣", score: {T:1} },
-            { text: "立刻凑过来舔主人脸，甚至发出呜咽声", score: {F:1} }
+            { text: "冷静观察，可能用爪子拍拍主人，但很快失去兴趣", score: { T: 1 } },
+            { text: "立刻凑过来舔主人脸，甚至发出呜咽声", score: { F: 1 } }
         ]
     },
-    { 
+    {
         text: "另一只狗狗抢了它的玩具时，它会？",
         options: [
-            { text: "直接扑上去抢回来，甚至低吼警告", score: {T:1} },
-            { text: "委屈地跑向主人，用眼神求助", score: {F:1} }
+            { text: "直接扑上去抢回来，甚至低吼警告", score: { T: 1 } },
+            { text: "委屈地跑向主人，用眼神求助", score: { F: 1 } }
         ]
     },
-    { 
+    {
         text: "主人因工作忙碌一整天没陪它玩，回家时它会？",
         options: [
-            { text: "正常玩耍，但很快失去兴趣，转而自己找玩具", score: {T:1} },
-            { text: "兴奋地扑向主人，叼来最喜欢的玩具，甚至发出委屈的呜咽声", score: {F:1} }
+            { text: "正常玩耍，但很快失去兴趣，转而自己找玩具", score: { T: 1 } },
+            { text: "兴奋地扑向主人，叼来最喜欢的玩具，甚至发出委屈的呜咽声", score: { F: 1 } }
         ]
     },
     // 维度4：判断(J) vs 知觉(P)
-    { 
+    {
         text: "每天散步时间到了，狗狗会？",
         options: [
-            { text: "提前5分钟坐在门口，用爪子扒门，甚至叼来牵引绳", score: {J:1} },
-            { text: "躺在沙发上打盹，直到主人喊‘走啦！’才慢悠悠起身", score: {P:1} }
+            { text: "提前5分钟坐在门口，用爪子扒门，甚至叼来牵引绳", score: { J: 1 } },
+            { text: "躺在沙发上打盹，直到主人喊‘走啦！’才慢悠悠起身", score: { P: 1 } }
         ]
     },
-    { 
+    {
         text: "主人给它新玩具时，它会？",
         options: [
-            { text: "立刻研究玩具功能，比如按按钮、扯绳子，直到弄坏", score: {J:1} },
-            { text: "先闻闻、抱抱，然后叼到角落藏起来，偶尔玩一下", score: {P:1} }
+            { text: "立刻研究玩具功能，比如按按钮、扯绳子，直到弄坏", score: { J: 1 } },
+            { text: "先闻闻、抱抱，然后叼到角落藏起来，偶尔玩一下", score: { P: 1 } }
         ]
     },
-    { 
+    {
         text: "主人带它去户外玩，准备回家时，它会？",
         options: [
-            { text: "主动走向门口，甚至叼来牵引绳，示意‘该走了’", score: {J:1} },
-            { text: "躺在地上耍赖，被主人拉起来后还一步三回头", score: {P:1} }
+            { text: "主动走向门口，甚至叼来牵引绳，示意‘该走了’", score: { J: 1 } },
+            { text: "躺在地上耍赖，被主人拉起来后还一步三回头", score: { P: 1 } }
         ]
     }
 ];
@@ -112,8 +112,8 @@ const typeResults = {
 
 // ============= 全局变量和DOM元素 =============
 let currentQuestionIndex = 0;
-let scores = {E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0}; // 八个维度的原始得分
-let dimensionTotals = {E:0, S:0, T:0, J:0}; // 四个维度的净得分（A倾向-B倾向）
+let scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+let userAnswers = new Array(questions.length).fill(null); // 记录每道题的选择索引
 
 // 获取页面元素
 const startPage = document.getElementById('start-page');
@@ -131,84 +131,155 @@ const dynamicTypeSpan = document.getElementById('dynamic-type');
 const payLink = document.getElementById('pay-link');
 const restartBtn = document.getElementById('restart-btn');
 
-// ============= 核心函数 =============
+// 新增：导航和名片相关元素
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const submitBtn = document.getElementById('submit-btn');
+const uploadPhotoInput = document.getElementById('upload-photo');
+const generateCardBtn = document.getElementById('generate-card');
+const photoFilename = document.getElementById('photo-filename');
+const cardPreview = document.getElementById('card-preview');
+const nameCardCanvas = document.getElementById('name-card-canvas');
+
+// 当前上传的狗狗照片对象
+let currentDogPhoto = null;
+
+// ============= 核心函数 - 测试流程 =============
 // 1. 开始测试
 startBtn.addEventListener('click', startTest);
 function startTest() {
     currentQuestionIndex = 0;
-    scores = {E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0};
+    scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+    userAnswers.fill(null); // 清空答案记录
     startPage.classList.remove('active');
     quizPage.classList.add('active');
     updateProgress();
     showQuestion();
+    updateNavButtons();
 }
 
-// 2. 显示题目
+// 2. 显示题目（含恢复已选答案）
 function showQuestion() {
     const q = questions[currentQuestionIndex];
     questionText.textContent = q.text;
     optionsContainer.innerHTML = '';
-    q.options.forEach(option => {
+
+    q.options.forEach((option, index) => {
         const button = document.createElement('button');
         button.className = 'option-btn';
         button.textContent = option.text;
-        button.dataset.score = JSON.stringify(option.score);
-        button.addEventListener('click', selectAnswer);
+        // 如果此题已选过，恢复选中状态
+        if (userAnswers[currentQuestionIndex] === index) {
+            button.classList.add('selected');
+        }
+        button.addEventListener('click', () => selectAnswer(button, index, option.score));
         optionsContainer.appendChild(button);
     });
+
+    updateProgress();
+    updateNavButtons();
 }
 
 // 3. 选择答案
-function selectAnswer(event) {
-    // 累加分数到原始分
-    const scoreDelta = JSON.parse(event.target.dataset.score); // 例如 {E:1}
-    for (const [dim, val] of Object.entries(scoreDelta)) {
-        scores[dim] += val; // scores.E += 1
-    }
+function selectAnswer(button, selectedIndex, scoreDelta) {
+    // 清除当前题目所有选项的选中样式
+    const allOptions = optionsContainer.querySelectorAll('.option-btn');
+    allOptions.forEach(opt => opt.classList.remove('selected'));
+    // 高亮当前选中项
+    button.classList.add('selected');
 
-    // 下一题或结束
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-        updateProgress();
+    // 记录答案
+    userAnswers[currentQuestionIndex] = selectedIndex;
+
+    // 更新导航按钮状态
+    updateNavButtons();
+}
+
+// 4. 更新导航按钮状态
+function updateNavButtons() {
+    // 上一题按钮：如果不是第一题，则可点击
+    prevBtn.disabled = currentQuestionIndex === 0;
+
+    // 下一题按钮：如果当前题已选，则可点击
+    const isCurrentAnswered = userAnswers[currentQuestionIndex] !== null;
+    nextBtn.disabled = !isCurrentAnswered;
+
+    // 提交按钮：如果是最后一题且已答，则显示
+    const isLastQuestion = currentQuestionIndex === questions.length - 1;
+    nextBtn.style.display = isLastQuestion ? 'none' : 'block';
+    submitBtn.style.display = isLastQuestion && isCurrentAnswered ? 'block' : 'none';
+}
+
+// 5. “上一题”按钮点击
+prevBtn.addEventListener('click', () => {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
         showQuestion();
-    } else {
-        calculateResult();
     }
-}
+});
 
-// 4. 更新进度条
-function updateProgress() {
-    const percent = ((currentQuestionIndex) / questions.length) * 100;
-    progressFill.style.width = percent + '%';
-    currentSpan.textContent = currentQuestionIndex + 1;
-}
+// 6. “下一题”按钮点击
+nextBtn.addEventListener('click', () => {
+    if (userAnswers[currentQuestionIndex] === null) {
+        alert('请先选择当前题的答案！');
+        return;
+    }
+    if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
+        showQuestion();
+    }
+});
 
-// 5. 计算最终结果（核心逻辑）
-function calculateResult() {
-    // 5.1 计算每个维度的净得分（你的“三题占二”逻辑的数学表达）
-    // 每个维度净得分 = 该维度正向分 - 该维度负向分
-    // 例如：E/I维度净得分 = scores.E - scores.I
-    // 若净得分 >=0，则为E；若净得分 <0，则为I
-    dimensionTotals.E = scores.E - scores.I;
-    dimensionTotals.S = scores.S - scores.N;
-    dimensionTotals.T = scores.T - scores.F;
-    dimensionTotals.J = scores.J - scores.P;
+// 7. “提交”按钮点击（检查所有题目）
+submitBtn.addEventListener('click', () => {
+    // 检查是否所有题目都已答完
+    const hasUnanswered = userAnswers.includes(null);
+    if (hasUnanswered) {
+        alert('请完成所有题目后再提交！');
+        return;
+    }
+    // 如果全部答完，计算分数并跳转结果页
+    calculateResultFromAnswers();
+});
 
-    // 5.2 根据净得分判断每个维度的倾向字母
+// 8. 根据记录的答案计算最终结果
+function calculateResultFromAnswers() {
+    // 重置分数
+    scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+
+    // 遍历所有答案，累加分数
+    userAnswers.forEach((answerIndex, qIndex) => {
+        if (answerIndex !== null) {
+            const scoreDelta = questions[qIndex].options[answerIndex].score;
+            for (const [dim, val] of Object.entries(scoreDelta)) {
+                scores[dim] += val;
+            }
+        }
+    });
+
+    // 计算每个维度的净得分
+    const dimensionTotals = {
+        E: scores.E - scores.I,
+        S: scores.S - scores.N,
+        T: scores.T - scores.F,
+        J: scores.J - scores.P
+    };
+
+    // 判断每个维度的倾向字母
     const typeCode = [
         dimensionTotals.E >= 0 ? 'E' : 'I',
         dimensionTotals.S >= 0 ? 'S' : 'N',
         dimensionTotals.T >= 0 ? 'T' : 'F',
         dimensionTotals.J >= 0 ? 'J' : 'P'
-    ].join(''); // 例如 "ESTJ"
+    ].join('');
 
-    // 5.3 切换到结果页并显示
+    // 切换到结果页并显示
     quizPage.classList.remove('active');
     resultPage.classList.add('active');
     displayResult(typeCode);
 }
 
-// 6. 显示结果
+// 9. 显示结果
 function displayResult(typeCode) {
     const result = typeResults[typeCode];
     if (result) {
@@ -225,13 +296,182 @@ function displayResult(typeCode) {
     }
 }
 
-// 7. 重新测试
+// 10. 更新进度条
+function updateProgress() {
+    const percent = ((currentQuestionIndex + 1) / questions.length) * 100;
+    progressFill.style.width = percent + '%';
+    currentSpan.textContent = currentQuestionIndex + 1;
+}
+
+// 11. 重新测试
 restartBtn.addEventListener('click', () => {
     resultPage.classList.remove('active');
     startPage.classList.add('active');
 });
 
-// 初始化：显示总题数
+// ============= 核心函数 - 生成性格名片 =============
+// 12. 监听照片上传
+uploadPhotoInput.addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // 验证文件类型
+    if (!file.type.match('image.*')) {
+        alert('请选择图片文件（JPG、PNG等）');
+        return;
+    }
+
+    // 验证文件大小（例如限制在5MB内）
+    if (file.size > 5 * 1024 * 1024) {
+        alert('图片大小请勿超过5MB');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        currentDogPhoto = new Image();
+        currentDogPhoto.onload = function () {
+            photoFilename.textContent = `已选择：${file.name}`;
+            generateCardBtn.disabled = false; // 启用生成按钮
+            // 可以在这里显示一个小的预览图（可选）
+            // cardPreview.src = event.target.result;
+            // cardPreview.style.display = 'block';
+        };
+        currentDogPhoto.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+});
+
+// 13. 生成名片按钮点击
+generateCardBtn.addEventListener('click', generateNameCard);
+
+// 14. 名片生成核心函数
+function generateNameCard() {
+    if (!currentDogPhoto) {
+        alert('请先上传一张狗狗照片！');
+        return;
+    }
+
+    const canvas = nameCardCanvas;
+    const ctx = canvas.getContext('2d');
+
+    // 1. 设置名片尺寸（适合手机屏幕分享）
+    const cardWidth = 750;
+    const cardHeight = 1334;
+    canvas.width = cardWidth;
+    canvas.height = cardHeight;
+
+    // 2. 绘制渐变背景
+    const gradient = ctx.createLinearGradient(0, 0, cardWidth, cardHeight);
+    gradient.addColorStop(0, '#8EC5FC');
+    gradient.addColorStop(1, '#E0C3FC');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, cardWidth, cardHeight);
+
+    // 3. 绘制一个可爱的狗狗爪印或骨头背景图案（简单示例）
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    // 这里可以添加一些装饰性图形
+
+    // 4. 绘制狗狗照片（圆形裁剪效果）
+    const photoSize = 400;
+    const photoX = (cardWidth - photoSize) / 2;
+    const photoY = 150;
+
+    // 先绘制一个圆形裁剪路径
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+
+    // 绘制图片
+    ctx.drawImage(currentDogPhoto, photoX, photoY, photoSize, photoSize);
+    ctx.restore();
+
+    // 5. 绘制照片的白色描边
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // 6. 绘制性格信息区域
+    const infoY = photoY + photoSize + 80;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(60, infoY, cardWidth - 120, 380);
+
+    // 7. 绘制性格标题
+    ctx.fillStyle = '#333333';
+    ctx.font = 'bold 60px "Microsoft YaHei"';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${resultName.textContent}`, cardWidth / 2, infoY + 80);
+
+    // 8. 绘制性格代码
+    ctx.fillStyle = '#666666';
+    ctx.font = '40px "Microsoft YaHei"';
+    ctx.fillText(`${resultCode.textContent}`, cardWidth / 2, infoY + 140);
+
+    // 9. 绘制性格描述（自动换行）
+    ctx.fillStyle = '#444444';
+    ctx.font = '30px "Microsoft YaHei"';
+    ctx.textAlign = 'left';
+    const maxWidth = cardWidth - 180;
+    const lineHeight = 42;
+    const description = resultDesc.textContent;
+    wrapText(ctx, description, 90, infoY + 220, maxWidth, lineHeight);
+
+    // 10. 绘制底部装饰和网址
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#888888';
+    ctx.font = '24px "Microsoft YaHei"';
+    ctx.fillText('ABTI犬格测试 · 生成专属回忆', cardWidth / 2, cardHeight - 60);
+
+    // 11. 生成图片并触发下载
+    const dataURL = canvas.toDataURL('image/png');
+    const downloadLink = document.createElement('a');
+    const timestamp = new Date().getTime();
+    downloadLink.href = dataURL;
+    downloadLink.download = `狗狗性格名片_${resultCode.textContent}_${timestamp}.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+
+    // 12. 显示预览图
+    cardPreview.src = dataURL;
+    cardPreview.style.display = 'block';
+    alert('名片已生成并开始下载！如果没有自动下载，请检查浏览器设置。');
+}
+
+// 15. 文字换行辅助函数
+function wrapText(context, text, x, y, maxWidth, lineHeight) {
+    const words = text.split('');
+    let line = '';
+    let lineCount = 0;
+    const maxLines = 4; // 最多显示4行
+
+    for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n];
+        const metrics = context.measureText(testLine);
+        const testWidth = metrics.width;
+        if ((testWidth > maxWidth && n > 0) || words[n] === '\n') {
+            context.fillText(line, x, y);
+            line = words[n] === '\n' ? '' : words[n];
+            y += lineHeight;
+            lineCount++;
+            if (lineCount >= maxLines) {
+                // 如果超过最大行数，添加省略号
+                context.fillText(line.substring(0, line.length - 1) + '...', x, y);
+                return;
+            }
+        } else {
+            line = testLine;
+        }
+    }
+    context.fillText(line, x, y);
+}
+
+// 页面加载完成后初始化一些状态
 document.addEventListener('DOMContentLoaded', () => {
-    // 可以在这里进行一些初始化设置
+    // 确保生成名片按钮初始为禁用状态
+    generateCardBtn.disabled = true;
 });
